@@ -3,6 +3,7 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import weatherRoutes from "./routes/weatherRoutes.js";
+import { mailing } from "./routes/mailingRoute.js";
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ mongoose
   .catch((error) => console.error("MongoDB connection error:", error));
 
 app.use("/api/weather", weatherRoutes);
+app.post("/mail", mailing);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

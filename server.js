@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-// import weatherRoutes from "./routes/weatherRoutes.js";
+import weatherRoutes from "./routes/weatherRoutes.js";
 
 dotenv.config();
 
@@ -15,7 +15,7 @@ mongoose
   .then(() => console.log("Connected to MongoDB"))
   .catch((error) => console.error("MongoDB connection error:", error));
 
-// app.use("/api/weather", weatherRoutes);
+app.use("/api/weather", weatherRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

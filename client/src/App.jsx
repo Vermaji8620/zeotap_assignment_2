@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import Header from "./components/Header";
 import WeatherSlider from "./components/WeatherSlider";
 import axios from "axios";
+import { ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   const [weatherData, setWeatherData] = useState([]);
@@ -18,20 +21,21 @@ const App = () => {
   };
   useEffect(() => {
     fetchData();
-    // const interv = setInterval(() => {
-    //   console.log("ksfdsh")
-    //   fetchData();
-    // }, 10 * 1000);
-    // return () => {
-    //   clearInterval(interv);
-    // };
+    const interv = setInterval(() => {
+      toast("Data reloaded successfully after 20 secs", { autoClose: 2000 });
+      fetchData();
+    }, 20 * 1000);
+    return () => {
+      clearInterval(interv);
+    };
   }, []);
 
   return (
-    <div className="">
+    <>
+      <ToastContainer />
       <Header title="Weather Monitoring App" />
       <WeatherSlider weatherData={weatherData} />
-    </div>
+    </>
   );
 };
 

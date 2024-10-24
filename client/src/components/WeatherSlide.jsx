@@ -1,7 +1,19 @@
 import Graph from "./Graph";
 import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const WeatherSlide = ({ cityData }) => {
+  const [toastShown, setToastShown] = useState(false);
+  const convertedTemp = cityData.main.temp - 273.15;
+  useEffect(() => {
+    if (!toastShown && convertedTemp >= 30) {
+      toast(cityData.name + " has a temp above 30");
+      setToastShown(true);
+    }
+  }, [convertedTemp, cityData.name, toastShown]);
+
   const getDominantWeatherReason = (weather) => {
     switch (weather) {
       case "Clouds":
@@ -21,6 +33,10 @@ const WeatherSlide = ({ cityData }) => {
     return date.toLocaleString().split(",")[1];
   };
 
+  // const callfuncForMailandToast = (nameOfTheCity) => {
+
+  // };
+
   return (
     <div className="p-6 rounded-lg shadow-md flex flex-col gap-10">
       <div className="flex justify-between">
@@ -28,7 +44,7 @@ const WeatherSlide = ({ cityData }) => {
           <h2 className="text-xl font-bold">{cityData.name}</h2>
           <p>Main Weather: {cityData.weather[0].main}</p>
           <p>
-            Temperature: {Math.round(cityData.main.temp - 273.15)}°C{" "}
+            Temperature: {Math.round(convertedTemp)}°C{" "}
             <span> ({cityData.main.temp})K</span>
           </p>
           <p>Feels Like: {Math.round(cityData.main.feels_like - 273.15)}°C</p>
@@ -57,7 +73,6 @@ const WeatherSlide = ({ cityData }) => {
 };
 WeatherSlide.propTypes = {
   cityData: PropTypes.any.isRequired,
-  count: PropTypes.any.isRequired,
 };
 
 export default WeatherSlide;

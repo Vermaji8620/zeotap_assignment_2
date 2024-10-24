@@ -16,14 +16,18 @@ const WeatherSlide = ({ cityData }) => {
             email: "anonymous@gmail.com",
             message: `${cityData.name} has a temperature above 30°C`,
           });
-          if (sendingMail.status == 200 && sendingMail && sendingMail.message) {
-            toast(sendingMail.message);
+          if (
+            sendingMail.status == 200 &&
+            sendingMail.data &&
+            sendingMail.data.message
+          ) {
+            toast(sendingMail.data.message);
           } else if (
             sendingMail.status == 500 &&
-            sendingMail &&
-            sendingMail.error
+            sendingMail.data &&
+            sendingMail.data.error
           ) {
-            toast(sendingMail.error);
+            toast(sendingMail.data.error);
           }
         } catch (err) {
           return toast(err.message);

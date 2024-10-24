@@ -33,7 +33,7 @@ const App = () => {
   return (
     <>
       <ToastContainer />
-      <Header title="Weather Monitoring App" />
+      <Header title="Real Time Weather Monitor" />
       <WeatherSlider weatherData={weatherData} />
     </>
   );

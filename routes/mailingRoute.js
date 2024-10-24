@@ -33,6 +33,7 @@ export const mailing = async (req, res) => {
       });
     }
     const mailOptions = {
+      // put the email id here, in which you want to receive the mail
       to: "vadityaraj67@gmail.com",
       from: email,
       subject: `Your website has a form submission from - ${fullname}`,
@@ -46,9 +47,9 @@ export const mailing = async (req, res) => {
         sentmail: sendingmail,
       });
     } catch (err) {
-      res.status(403).json({
-        message: "Error sending email",
-        error_is: err,
+      res.status(500).json({
+        error: err,
+        message: "Some error occured",
       });
     }
   } catch (error) {

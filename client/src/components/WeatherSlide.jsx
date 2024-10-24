@@ -1,18 +1,37 @@
+import axios from "axios";
 import Graph from "./Graph";
 import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const WeatherSlide = ({ cityData }) => {
-  const [toastShown, setToastShown] = useState(false);
   const convertedTemp = cityData.main.temp - 273.15;
   useEffect(() => {
-    if (!toastShown && convertedTemp >= 30) {
-      toast(cityData.name + " has a temp above 30");
-      setToastShown(true);
-    }
-  }, [convertedTemp, cityData.name, toastShown]);
+    (async () => {
+      if (convertedTemp > 30) {
+        try {
+          const sendingMail = await axios.post("http://localhost:5000/mail", {
+            fullname: "anonymous",
+            email: "anonymous@gmail.com",
+            message: `${cityData.name} has a temperature above 30°C`,
+          });
+          if (sendingMail.status == 200 && sendingMail && sendingMail.message) {
+            toast(sendingMail.message);
+          } else if (
+            sendingMail.status == 500 &&
+            sendingMail &&
+            sendingMail.error
+          ) {
+            toast(sendingMail.error);
+          }
+        } catch (err) {
+          return toast(err.message);
+        }
+        toast(cityData.name + " has a temp above 30");
+      }
+    })();
+  }, [convertedTemp, cityData.name]);
 
   const getDominantWeatherReason = (weather) => {
     switch (weather) {

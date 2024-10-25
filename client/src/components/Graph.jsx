@@ -37,16 +37,17 @@ export const LineGraph = ({ cityData }) => {
     </ResponsiveContainer>
   );
 };
-
 export const GraphIterator = ({ city, data }) => {
   return (
     <div className="mb-16 flex flex-col gap-10">
       <div className="text-yellow-400">
         {city}
-        <div className="flex gap-2">
+        <div className="flex gap-2 overflow-x-auto scrollbar-hide">
           {data &&
             data.map((everyDataItem, index) => (
-              <BarGraph city={city} key={index} everyDataItem={everyDataItem} />
+              <div className="flex-shrink-0" key={index}>
+                <BarGraph city={city} everyDataItem={everyDataItem} />
+              </div>
             ))}
         </div>
       </div>
@@ -69,7 +70,7 @@ export const BarGraph = ({ everyDataItem }) => {
   const COLORS = ["#8884d8", "#82ca9d", "#ffc658"];
 
   return (
-    <ResponsiveContainer width="100%" height={300}>
+    <ResponsiveContainer width={300} height={300}>
       <BarChart data={graphData}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="name" />

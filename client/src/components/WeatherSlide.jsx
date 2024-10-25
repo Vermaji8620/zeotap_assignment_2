@@ -1,9 +1,9 @@
 import axios from "axios";
-import Graph from "./Graph";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { LineGraph } from "./Graph";
 
 const WeatherSlide = ({ cityData }) => {
   const convertedTemp = cityData.main.temp - 273.15;
@@ -56,10 +56,6 @@ const WeatherSlide = ({ cityData }) => {
     return date.toLocaleString().split(",")[1];
   };
 
-  // const callfuncForMailandToast = (nameOfTheCity) => {
-
-  // };
-
   return (
     <div className="p-6 rounded-lg shadow-md flex flex-col gap-10">
       <div className="flex justify-between">
@@ -80,7 +76,7 @@ const WeatherSlide = ({ cityData }) => {
           {formatDate(cityData.dt)}
         </div>
       </div>
-      <Graph cityData={cityData} />
+      <LineGraph cityData={cityData} />
       <div className="flex justfy-between flex-col">
         <p className="text-green-300">
           Min-Temp{" "}

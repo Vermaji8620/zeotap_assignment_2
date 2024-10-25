@@ -31,7 +31,6 @@ const calculateDailySummaries = (data) => {
   data.forEach((entry) => {
     const timestamp = new Date(entry.timestamp);
     if (isNaN(timestamp)) {
-      console.error(`Invalid timestamp: ${entry.timestamp}`);
       return;
     }
 
@@ -63,6 +62,25 @@ const calculateDailySummaries = (data) => {
   return summaries;
 };
 
-// Calculate summaries
-const dailySummaries = calculateDailySummaries(allWeatherData);
-console.log(dailySummaries);
+const transformDailySummaries = (dailySummaries) => {
+  const transformedData = [];
+
+  for (const city in dailySummaries) {
+    for (const date in dailySummaries[city]) {
+      transformedData.push({
+        city,
+        date,
+        averageTemp: dailySummaries[city][date].averageTemp,
+        maxTemp: dailySummaries[city][date].maxTemp,
+        minTemp: dailySummaries[city][date].minTemp,
+        dominantWeather: dailySummaries[city][date].dominantWeather,
+      });
+    }
+  }
+
+  return transformedData;
+};
+export const transformedData = transformDailySummaries(
+  calculateDailySummaries(allWeatherData)
+);
+console.log(transformedData);

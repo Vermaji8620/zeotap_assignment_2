@@ -1,5 +1,6 @@
 import axios from "axios";
 import { WeatherData } from "../models/weatherData.js";
+import { transformedData } from "./dailyWeatherSummary.js";
 
 export const fetchWeatherData = async (req, res) => {
   try {
@@ -53,5 +54,20 @@ export const fetchWeatherData = async (req, res) => {
   } catch (error) {
     console.error("Error fetching weather data:", error);
     res.status(500).json({ error: "Failed to fetch weather data" });
+  }
+};
+
+export const fetchMockData = (req, res) => {
+  try {
+    const transformDatareceived = transformedData; 
+    res.status(200).json({
+      message: "Mock data fetched successfully",
+      transformDatareceived: transformDatareceived,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: "Some error occured",
+      message: error.message,
+    });
   }
 };

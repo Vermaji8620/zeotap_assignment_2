@@ -59,10 +59,45 @@ export const fetchWeatherData = async (req, res) => {
 
 export const fetchMockData = (req, res) => {
   try {
-    const transformDatareceived = transformedData; 
+    const transformDatareceived = transformedData;
+    let cityWeatherArray = [];
+
+    for (let item of transformDatareceived) {
+      let cityObject = {
+        city: item.city,
+        data: {
+          date: item.date,
+          avgTemp: item.avgTemp,
+          maxTemp: item.maxTemp,
+          minTemp: item.minTemp,
+          dominantWeather: item.dominantWeather,
+        },
+      };
+      cityWeatherArray.push(cityObject);
+    }
+
+    let groupedCityWeatherArray = cityWeatherArray.reduce((acc, current) => {
+      let city = current.city;
+      if (!acc[city]) {
+        acc[city] = [];
+      }
+      acc[city].push(current.data);
+      return acc;
+    }, {});
+
+    let finalCityWeatherArray = Object.keys(groupedCityWeatherArray).map(
+      (city) => {
+        return {
+          city: city,
+          data: groupedCityWeatherArray[city],
+        };
+      }
+    );
+
+    cityWeatherArray = finalCityWeatherArray;
     res.status(200).json({
       message: "Mock data fetched successfully",
-      transformDatareceived: transformDatareceived,
+      transformDatareceived: cityWeatherArray,
     });
   } catch (error) {
     res.status(500).json({

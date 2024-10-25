@@ -7,8 +7,6 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
-  PieChart,
-  Pie,
   ResponsiveContainer,
   BarChart,
   Bar,
@@ -40,19 +38,31 @@ export const LineGraph = ({ cityData }) => {
   );
 };
 
-export const PieGraph = ({ everycityData }) => {
+export const GraphIterator = ({ city, data }) => {
+  return (
+    <div className="mb-16 flex flex-col gap-10">
+      <div className="text-yellow-400">
+        {city}
+        <div className="flex gap-2">
+          {data &&
+            data.map((everyDataItem, index) => (
+              <BarGraph city={city} key={index} everyDataItem={everyDataItem} />
+            ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export const BarGraph = ({ everyDataItem }) => {
   const graphData = [
     {
-      name: "Average Temp",
-      value: Math.round(everycityData.averageTemp - 273.15),
-    },
-    {
       name: "Max Temp",
-      value: Math.round(everycityData.maxTemp - 273.15),
+      value: Math.round(everyDataItem.maxTemp - 273.15),
     },
     {
       name: "Min Temp",
-      value: Math.round(everycityData.minTemp - 273.15),
+      value: Math.round(everyDataItem.minTemp - 273.15),
     },
   ];
 
@@ -60,35 +70,30 @@ export const PieGraph = ({ everycityData }) => {
 
   return (
     <ResponsiveContainer width="100%" height={300}>
-      <PieChart>
-        <Pie
-          data={graphData}
-          dataKey="value"
-          nameKey="name"
-          cx="50%"
-          cy="50%"
-          outerRadius={100}
-          fill="#8884d8"
-          label
-        >
+      <BarChart data={graphData}>
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="name" />
+        <YAxis />
+        <Tooltip />
+        <Legend />
+        <Bar dataKey="value" fill="#8884d8">
           {graphData.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
           ))}
-        </Pie>
-        <Tooltip />
-        <Legend />
-      </PieChart>
+        </Bar>
+      </BarChart>
+      <p className="text-center">{everyDataItem.date}</p>
     </ResponsiveContainer>
   );
 };
 
-PieGraph.propTypes = {
-  everycityData: PropTypes.any.isRequired,
+GraphIterator.propTypes = {
+  city: PropTypes.any.isRequired,
+  data: PropTypes.any.isRequired,
+};
+BarGraph.propTypes = {
+  everyDataItem: PropTypes.any.isRequired,
 };
 LineGraph.propTypes = {
   cityData: PropTypes.any.isRequired,
 };
-
-// BarGraph.propTypes = {
-//   everycityData: PropTypes.any.isRequired,
-// };

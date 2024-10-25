@@ -1,4 +1,4 @@
-import { PieGraph } from "./Graph";
+import { GraphIterator } from "./Graph";
 import WeatherSlide from "./WeatherSlide";
 import PropTypes from "prop-types";
 
@@ -23,7 +23,11 @@ const WeatherSlider = ({ weatherData, mockWeatherData }) => {
             <div>
               {mockWeatherData.transformDatareceived.map(
                 (everycityData, index) => (
-                  <PieGraph key={index} everycityData={everycityData} />
+                  <GraphIterator
+                    key={index}
+                    city={everycityData.city}
+                    data={everycityData.data}
+                  />
                 )
               )}
             </div>

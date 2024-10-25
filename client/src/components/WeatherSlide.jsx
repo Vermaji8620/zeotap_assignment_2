@@ -9,7 +9,7 @@ const WeatherSlide = ({ cityData }) => {
   const convertedTemp = cityData.main.temp - 273.15;
   useEffect(() => {
     (async () => {
-      if (convertedTemp > 30) {
+      if (convertedTemp > 25) {
         try {
           const sendingMail = await axios.post("http://localhost:5000/mail", {
             fullname: "anonymous",

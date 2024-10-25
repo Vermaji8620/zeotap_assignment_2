@@ -15,7 +15,7 @@ export const mailing = async (req, res) => {
     const transport = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: "rajaditya14032002@gmail.com",
+        user: process.env.nodemailer_account_holder,
         pass: process.env.NODEMAILERPASSWORD,
       },
     });
@@ -33,8 +33,7 @@ export const mailing = async (req, res) => {
       });
     }
     const mailOptions = {
-      // put the email id here, in which you want to receive the mail
-      to: "vadityaraj67@gmail.com",
+      to: process.env.email_receiving_mail_id,
       from: email,
       subject: `Your website has a form submission from - ${fullname}`,
       text: `Name: ${fullname}\nEmail: ${email}\n\nMessage:\n${message}`,

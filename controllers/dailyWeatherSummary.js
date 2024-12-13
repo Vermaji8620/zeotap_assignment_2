@@ -83,4 +83,4 @@ const transformDailySummaries = (dailySummaries) => {
 export const transformedData = transformDailySummaries(
   calculateDailySummaries(allWeatherData)
 );
-console.log(transformedData);
+// console.log(transformedData);

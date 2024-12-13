@@ -2,7 +2,14 @@ import axios from "axios";
 import { WeatherData } from "../models/weatherData.js";
 import { transformedData } from "./dailyWeatherSummary.js";
 
+const capitalize = (str) => {
+  if (!str) return str;
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
+
 export const fetchWeatherData = async (req, res) => {
+  let fetchcity = req.query.fetchcity;
+  fetchcity = capitalize(fetchcity);
   try {
     const cities = [
       "Delhi",
@@ -20,8 +27,6 @@ export const fetchWeatherData = async (req, res) => {
 
       allcitiesarray.push(response.data);
     }
-
-    console.log(allcitiesarray);
 
     let eachcityarray = [];
     for (let i in allcitiesarray) {
@@ -48,9 +53,21 @@ export const fetchWeatherData = async (req, res) => {
     });
 
     await newArrayToStore.save();
-    res
-      .status(200)
-      .json({ eachcityarray, message: "Data fetched successfully" });
+    let thecitytobereturned = null;
+    for (let eachcity in eachcityarray) {
+      if (eachcityarray[eachcity].name == fetchcity)
+        thecitytobereturned = eachcityarray[eachcity];
+    }
+    if (thecitytobereturned) {
+      res.status(200).json({
+        message: "Data fetched successfully",
+        thecitytobereturned,
+      });
+    } else {
+      res.status(404).json({
+        message: "City not found",
+      });
+    }
   } catch (error) {
     console.error("Error fetching weather data:", error);
     res.status(500).json({ error: "Failed to fetch weather data" });
@@ -59,6 +76,8 @@ export const fetchWeatherData = async (req, res) => {
 
 export const fetchMockData = (req, res) => {
   try {
+    let fetchcity = req.query.fetchcity;
+    fetchcity = capitalize(fetchcity);
     const transformDatareceived = transformedData;
     let cityWeatherArray = [];
 
@@ -95,10 +114,20 @@ export const fetchMockData = (req, res) => {
     );
 
     cityWeatherArray = finalCityWeatherArray;
-    res.status(200).json({
-      message: "Mock data fetched successfully",
-      transformDatareceived: cityWeatherArray,
-    });
+    let particularCityMockWeather = cityWeatherArray.find(
+      (eachobj) => eachobj.city.toLowerCase() == fetchcity.toLowerCase()
+    );
+
+    if (!particularCityMockWeather) {
+      res.status(404).json({
+        message: "City not found in mock data",
+      });
+    } else {
+      res.status(200).json({
+        message: "Mock data fetched successfully",
+        particularCityMockWeather,
+      });
+    }
   } catch (error) {
     res.status(500).json({
       error: "Some error occured",

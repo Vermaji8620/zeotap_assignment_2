@@ -2,14 +2,12 @@ import { GraphIterator } from "./Graph";
 import WeatherSlide from "./WeatherSlide";
 import PropTypes from "prop-types";
 
-const WeatherSlider = ({ weatherData, mockWeatherData }) => {
+const WeatherSlider = ({ weatherData = null, mockWeatherData = null }) => {
   return (
     <>
       <div>
-        {weatherData.eachcityarray ? (
-          weatherData.eachcityarray.map((cityData, index) => (
-            <WeatherSlide key={index} cityData={cityData} />
-          ))
+        {weatherData ? (
+          <WeatherSlide cityData={weatherData} />
         ) : (
           <p>Loading...</p>
         )}
@@ -19,17 +17,12 @@ const WeatherSlider = ({ weatherData, mockWeatherData }) => {
           Comparison for daily weather data for city
         </h1>
         <div>
-          {mockWeatherData.transformDatareceived ? (
+          {mockWeatherData ? (
             <div>
-              {mockWeatherData.transformDatareceived.map(
-                (everycityData, index) => (
-                  <GraphIterator
-                    key={index}
-                    city={everycityData.city}
-                    data={everycityData.data}
-                  />
-                )
-              )}
+              <GraphIterator
+                city={mockWeatherData.city}
+                data={mockWeatherData.data}
+              />
             </div>
           ) : (
             <div>

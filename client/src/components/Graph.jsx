@@ -40,7 +40,7 @@ export const LineGraph = ({ cityData }) => {
 export const GraphIterator = ({ city, data }) => {
   return (
     <div className="mb-16 flex flex-col gap-10">
-      <div className="text-yellow-400">
+      <div className="text-yellow-400 flex flex-col gap-10">
         {city}
         <div className="flex gap-2 overflow-x-auto scrollbar-hide">
           {data &&

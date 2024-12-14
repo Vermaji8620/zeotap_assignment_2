@@ -36,8 +36,8 @@ const WeatherSlider = ({ weatherData = null, mockWeatherData = null }) => {
 };
 
 WeatherSlider.propTypes = {
-  weatherData: PropTypes.any.isRequired,
-  mockWeatherData: PropTypes.any.isRequired,
+  weatherData: PropTypes.any,
+  mockWeatherData: PropTypes.any,
 };
 
 export default WeatherSlider;

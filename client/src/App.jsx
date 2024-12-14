@@ -28,6 +28,7 @@ const App = () => {
   useEffect(() => {
     (async () => {
       await fetchData("Kolkata");
+      toast("Data fetched")
     })();
   }, []);
 

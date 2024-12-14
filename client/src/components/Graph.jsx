@@ -37,6 +37,8 @@ export const LineGraph = ({ cityData }) => {
     </ResponsiveContainer>
   );
 };
+
+
 export const GraphIterator = ({ city, data }) => {
   return (
     <div className="mb-16 flex flex-col gap-10">
